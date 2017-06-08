@@ -61,3 +61,33 @@ def process_record(id_, state_id, year, record):
     processed['year'] = year
     return processed
     
+
+def make_table(table, sqlCtx, table_name, path=None):
+    '''
+    '''
+    table_df = sqlCtx.createDataFrame(table)
+    table_df.createOrReplaceTempView(table_name)
+    if path:
+        table_df.write.parquet(path, mode='overwrite', compression='snappy')
+        sqlCtx.createExternalTable(table_name, path=path, schema=table_df.schema)
+    return table_df
+
+
+def clean_ontology(ontology):
+    '''clean ontology read as is from acs_schema.ttl
+    '''
+    ontology = re.split('\n\.\n', ontology)
+    ont_pr = [{'name': e[0].replace(':', '_'), 'data': e[1:]} for e in [o.split('\n') for o in ontology[1:]]]
+    reg = re.compile('')
+    for o in ont_pr:
+        o['data'] = [re.sub(';$', '', e).strip() for e in o['data']]
+        d = {}
+        for tup in [re.split(' ', e, 1) for e in o['data']]:
+            if len(tup) == 2:
+                d[tup[0]] = tup[1]
+            else:
+                d[tup[0]] = ''
+        o['data'] = d
+    return ont_pr
+
+    

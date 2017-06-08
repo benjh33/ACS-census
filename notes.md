@@ -25,4 +25,7 @@ each year is a random sample of 3.5 million addresses
   - QuickFacts
   - Easy Stats
  
+2. Execute some Spark MLlib stuff
+  - LDA
+  - Logistic regression
 

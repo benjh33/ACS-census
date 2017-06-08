@@ -6,3 +6,4 @@
 *.zip
 spark-conf.json
 spark-env.json
+metastore_db
