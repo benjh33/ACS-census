@@ -1,0 +1,8 @@
+*.swo
+*.swp
+*.pyc
+*.log
+.ipynb_checkpoints/
+*.zip
+spark-conf.json
+spark-env.json
